@@ -7,7 +7,7 @@ tag_latest="${TAG_LATEST}"
 docker_repo_name="${DOCKER_REPO_NAME}"
 docker_image_name="${DOCKER_IMAGE_NAME}"
 
-source common.sh
+source .github/scripts/common.sh
 
 bump_docker_image_version "${docker_repo_name}" "${docker_image_name}" "${major_minor_patch}"
 
