@@ -21,7 +21,7 @@ echo "CURRENT_VERSION=${new_version}" >> $GITHUB_ENV
 cd ..
 
 docker build --no-cache -t "${docker_repo_name}/${docker_image_name}:${new_version}" \
-  --build-arg PORT=${DOCKER_PORT} \
+  --build-arg PORT=${DOCKER_PORT:5000} \
   --build-arg ENVIRONMENT="${ENVIRONMENT}" .
 
 docker_login "${DOCKERHUB_USERNAME}" "${DOCKERHUB_PASSWORD}" || die 'unable to login to docker hub' >/dev/null 2>&1
