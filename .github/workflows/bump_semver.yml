@@ -27,46 +27,46 @@ jobs:
       - name: update docker image
         run: .github/scripts/bump.sh
 
-      # - name: Set Action Type Variable
-      #   id: vars
-      #   run: |
-      #     echo "Image name ${{ env.DOCKER_IMAGE_NAME }}"
-      #     echo ::set-output name=image_name::${{ env.DOCKER_IMAGE_NAME }}
-      #     echo "Previous version ${{ env.PREVIOUS_VERSION }}"
-      #     echo ::set-output name=previous_version::${{ env.PREVIOUS_VERSION }}
-      #     echo "Current version ${{ env.CURRENT_VERSION }}"
-      #     echo ::set-output name=current_version::${{ env.CURRENT_VERSION }}
-  # Slack-Notification-on-success:
-  #   name: Slack-On-Success-Notification
-  #   runs-on: ubuntu-20.04
-  #   needs: [ bump-image ]
-  #   if: |
-  #     github.event.deployment.task == 'bump-image' &&
-  #     needs.bump-image.result == 'success'
-  #   env:
-  #     previous_version: ${{ needs.bump-image.outputs.previous_version }}
-  #     current_version: ${{ needs.bump-image.outputs.current_version }}
-  #   steps:
-  #     - name: Prepare Slack Message On Success
-  #       id: slack-message-success-creator
-  #       run: |
-  #         SLACK_MESSAGE="
-  #         *Docker repo:* ${{ github.event.deployment.payload.docker_repo_name }}
-  #         *Docker Image:* ${{ github.event.deployment.payload.docker_image_name }} 
-  #         *Environment:* ${{ env.ENVIRONMENT }}
-  #         *Previous version:* $previous_version
-  #         *Current version :* $current_version
-  #         "
-  #         echo "::set-output name=slack-message::${SLACK_MESSAGE//$'\n'/'%0A'}"
-  #     - name: Slack Success Notification
-  #       if: success()
-  #       uses: rtCamp/action-slack-notify@v2
-  #       env:
-  #         SLACK_CHANNEL: 'maor-git-acrion'
-  #         SLACK_COLOR: ${{ job.status }}
-  #         SLACK_ICON: https://github.com/rtCamp.png?size=48
-  #         SLACK_TITLE: 'successfully updated the image'
-  #         SLACK_MESSAGE: '${{ steps.slack-message-success-creator.outputs.slack-message }}'
-  #         SLACK_USERNAME: githubBot
-  #         SLACK_WEBHOOK: ${{ secrets.SLACK_MAOR_TEST }}
-  #         MSG_MINIMAL: true
+      - name: Set Action Type Variable
+        id: vars
+        run: |
+          echo "Image name ${{ env.DOCKER_IMAGE_NAME }}"
+          echo ::set-output name=image_name::${{ env.DOCKER_IMAGE_NAME }}
+          echo "Previous version ${{ env.PREVIOUS_VERSION }}"
+          echo ::set-output name=previous_version::${{ env.PREVIOUS_VERSION }}
+          echo "Current version ${{ env.CURRENT_VERSION }}"
+          echo ::set-output name=current_version::${{ env.CURRENT_VERSION }}
+  Slack-Notification-on-success:
+    name: Slack-On-Success-Notification
+    runs-on: ubuntu-20.04
+    needs: [ bump-image ]
+    if: |
+      github.event.deployment.task == 'bump-image' &&
+      needs.bump-image.result == 'success'
+    env:
+      previous_version: ${{ needs.bump-image.outputs.previous_version }}
+      current_version: ${{ needs.bump-image.outputs.current_version }}
+    steps:
+      - name: Prepare Slack Message On Success
+        id: slack-message-success-creator
+        run: |
+          SLACK_MESSAGE="
+          *Docker repo:* ${{ github.event.deployment.payload.docker_repo_name }}
+          *Docker Image:* ${{ github.event.deployment.payload.docker_image_name }} 
+          *Environment:* ${{ env.ENVIRONMENT }}
+          *Previous version:* $previous_version
+          *Current version :* $current_version
+          "
+          echo "::set-output name=slack-message::${SLACK_MESSAGE//$'\n'/'%0A'}"
+      - name: Slack Success Notification
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: 'tal-k8s-demo'
+          SLACK_COLOR: ${{ job.status }}
+          SLACK_ICON: https://github.com/rtCamp.png?size=48
+          SLACK_TITLE: 'successfully updated the image'
+          SLACK_MESSAGE: '${{ steps.slack-message-success-creator.outputs.slack-message }}'
+          SLACK_USERNAME: githubBot
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          MSG_MINIMAL: true
