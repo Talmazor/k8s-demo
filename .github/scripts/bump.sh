@@ -18,7 +18,9 @@ echo "PREVIOUS_VERSION=${current_version}" >> $GITHUB_ENV
 echo "CURRENT_VERSION=${new_version}" >> $GITHUB_ENV
 
 # Build docker image
-cd ..
+ls -ltr
+cd ../../
+ls -ltr
 
 docker build --no-cache -t "${docker_repo_name}/${docker_image_name}:${new_version}" \
   --build-arg PORT=${DOCKER_PORT:5000} \
