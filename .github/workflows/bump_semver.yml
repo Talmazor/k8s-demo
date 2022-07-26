@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: update docker image
-        run: .github/scripts/bump.sh
+        run: chmod +x .github/scripts/bump.sh && .github/scripts/bump.sh
 
       # - name: Set Action Type Variable
       #   id: vars
