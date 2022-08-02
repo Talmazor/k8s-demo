@@ -7,7 +7,7 @@ port_key = 'PORT'
 environment_key = 'ENVIRONMENT'
 environment = os.getenv(environment_key, 'dev')
 port = os.getenv(port_key, 5000)
-is_debug = True if environment == 'production' else False
+is_debug = False if environment == 'production' else True
 
 
 # Return host IP
@@ -30,7 +30,6 @@ def health():
 
 
 # Log file
-logging.basicConfig(filename='/var/log/record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
-
+logging.basicConfig(filename='./record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 app.run(host='localhost', port=port, debug=is_debug)
