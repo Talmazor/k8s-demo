@@ -1,10 +1,13 @@
+from msilib.schema import Environment
 import flask
 import logging
 import os
 
 app = flask.Flask(__name__)
 port_key = 'PORT'
+environment = 'ENVIRONMENT'
 port = os.getenv(port_key, 5000)
+is_debug = True if os.getenv(environment, 'dev') == 'production' else False
 
 
 # Return host IP
@@ -30,4 +33,4 @@ def health():
 logging.basicConfig(filename='/var/log/record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 
-app.run(host='localhost', port=port, debug=True)
+app.run(host='localhost', port=port, debug=is_debug)
