@@ -7,13 +7,13 @@ metadata:
 spec:
   containers:
     - name: k8s-demo
-      image: docker.io/taldockerid/k8s-demo:2.0.0
+      image: docker.io/taldockerid/k8s-demo:2.0.1
       imagePullPolicy: IfNotPresent
       env:
       - name: PORT
         value: "4321"
       - name: ENVIRONMENT
-        value: "production"
+        value: "dev"
       - name: FLASK_ENV
         value: "production"
       ports:
